@@ -1,0 +1,102 @@
+{
+    "layer": "top",
+    "modules-left": ["custom/arch", "hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "tray",
+        "custom/brightness",
+        "pulseaudio",
+        "hyprland/language",
+        "network",
+        "temperature",
+        "cpu",
+        "memory",
+        "custom/power"
+    ],
+
+    "custom/arch": {
+        "format": "󰣇",
+        "tooltip": false,
+        "on-click": "rofi --show drun"
+    },
+
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wlogout || poweroff"
+    },
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5]
+        },
+        "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({workspace=\"e+1\"})' ",
+        "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({workspace=\"e-1\"})' ",
+	"on-click": "activate"  
+    },
+
+
+    "pulseaudio": {
+        "format": "󰕾 {volume}%  󰍬 {format_source}",
+        "format-source": "{volume}%",
+        "format-source-muted": "󰍭",
+        "format-muted": "󰝟 Muted",
+        "on-click": "pavucontrol"
+    },
+
+    "cpu": {
+        "interval": 10,
+        "format": " {usage}%",
+        "max-length": 10,
+	"tooltip":  false
+    },
+
+    "memory": {
+        "interval": 30,
+        "format": " {used}GB",
+        "tooltip-format": "{used:0.1f}G/{total:0.1f}G used",
+	"tooltip": false
+    },
+
+    "network": {
+        "format-wifi": "  {bandwidthUpBits} |  {bandwidthDownBits}",
+        "format-ethernet": "  {bandwidthUpBits} |  {bandwidthDownBits}",
+        "format-disconnected": "󰤭",
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗"
+    },
+
+    "clock": {
+        "format": "󰥔 {:%a, %d. %b %I:%M %p}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+
+    "hyprland/language": {
+        "format": "{}",
+        "format-en": "US",
+        "format-ara": "AR"
+    },
+
+    "temperature": {
+        "hwmon-path": ["/sys/class/hwmon/hwmon2/temp1_input", "/sys/class/thermal/thermal_zone0/temp"],	 
+        "critical-threshold": 80,
+        "format-critical": " {temperatureC}°C",
+        "format": " {temperatureC}°C"
+    },
+
+    "custom/brightness": {
+        "format": "<span size='11000'>{icon}</span> {text}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "exec": "ddcutil --noverify getvcp 10 | grep -oP 'current.*?=\\s*\\K[0-9]+'",
+        "on-scroll-up": "ddcutil --noverify setvcp 10 + 5 && pkill -RTMIN+5 waybar",
+        "on-scroll-down": "ddcutil --noverify setvcp 10 - 5 && pkill -RTMIN+5 waybar",
+        "signal": 5,
+        "interval": 10,
+        "tooltip": false
+    },
+
+    "tray": {
+        "icon-size":15,
+        "spacing": 10
+    }
+}
